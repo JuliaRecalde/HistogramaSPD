@@ -28,13 +28,19 @@ void procesarEstado(const char *line) {
     }
 }
 
-void cargarArchivo() {
+void abrirArchivo() {
     char *filename = "raw_data.csv";
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         perror("Error al abrir el archivo CSV");
         exit(1);
     }
+}
+
+void procesarArchivo()
+{
+    char *filename = "raw_data.csv";
+    FILE *file = fopen(filename, "r");
     char line[1024];
     fgets(line, sizeof(line), file);
     fgets(line, sizeof(line), file);
@@ -62,7 +68,8 @@ int main() {
     clock_t inicio, fin;
     double tiempo;
     inicio = clock();
-    cargarArchivo();
+    abrirArchivo();
+    procesarArchivo();
     mostrarHistograma();
     fin = clock();
     tiempo = (double)(fin - inicio) / CLOCKS_PER_SEC;
