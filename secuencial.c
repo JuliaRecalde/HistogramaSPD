@@ -3,10 +3,10 @@
 #include <string.h>
 #include <time.h>
 
-#define NUM_CATEGORIES 6
-#define NUM_STATES 54
+#define NUM_CATEGORIAS 6
+#define NUM_ESTADOS 54
 
-char *category_names[NUM_CATEGORIES] = {
+char *nombre_categorias[NUM_CATEGORIAS] = {
     "Children 0-18",
     "Adults  19-25",
     "Adults  26-34",
@@ -15,15 +15,15 @@ char *category_names[NUM_CATEGORIES] = {
     "65+          "
 };
 
-int histograma_final[NUM_CATEGORIES] = {0};
-char estados[NUM_STATES][256];
+int histograma_final[NUM_CATEGORIAS] = {0};
+char estados[NUM_ESTADOS][256];
 
 void procesarEstado(const char *line) {
-    int categorias[NUM_CATEGORIES] = {0};
+    int categorias[NUM_CATEGORIAS] = {0};
     sscanf(line, "%*[^,],%d,%d,%d,%d,%d,%d\n",
            &categorias[0], &categorias[1], &categorias[2], &categorias[3],
            &categorias[4], &categorias[5]);
-    for (int i = 0; i < NUM_CATEGORIES; i++) {
+    for (int i = 0; i < NUM_CATEGORIAS; i++) {
         histograma_final[i] += categorias[i];
     }
 }
@@ -38,7 +38,7 @@ void cargarArchivo() {
     char line[1024];
     fgets(line, sizeof(line), file);
     fgets(line, sizeof(line), file);
-    for (int estadoIndex = 0; estadoIndex < NUM_STATES; estadoIndex++) {
+    for (int estadoIndex = 0; estadoIndex < NUM_ESTADOS; estadoIndex++) {
         fgets(line, sizeof(line), file);
         sscanf(line, "%255[^,],", estados[estadoIndex]);
         procesarEstado(line);
@@ -49,8 +49,8 @@ void cargarArchivo() {
 void mostrarHistograma() {
     printf("Histograma final:\n");
     int escala = 10000000;
-    for (int i = 0; i < NUM_CATEGORIES; i++) {
-        printf("%s: ", category_names[i]);
+    for (int i = 0; i < NUM_CATEGORIAS; i++) {
+        printf("%s: ", nombre_categorias[i]);
         for (int j = 0; j < histograma_final[i] / escala; j++) {
             printf("* ");
         }
